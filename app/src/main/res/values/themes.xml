@@ -7,6 +7,8 @@
         <item name="colorOnPrimary">@color/Shadows</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/Shadows</item>
+        <item name="android:navigationBarColor">@color/Shadows</item>
     </style>
 
     <style name="Theme.TestApp" parent="Base.Theme.TestApp" />
