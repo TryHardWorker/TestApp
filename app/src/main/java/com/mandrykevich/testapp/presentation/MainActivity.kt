@@ -3,35 +3,42 @@ package com.mandrykevich.testapp.presentation
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import api.ApiInterface
-import api.Button
+import api.api.RetrofitClient
 import com.mandrykevich.testapp.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import room.AppDatabase
+import room.JobRepository
+import room.OfferEntity
 
 class MainActivity : AppCompatActivity() {
+
+    private val jobViewModel: JobViewModel by viewModels {
+        JobViewModelFactory(JobRepository(AppDatabase.getDatabase(applicationContext).jobDao()))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val tv = findViewById<TextView>(R.id.tv)
         val b = findViewById<View>(R.id.bb)
 
+        val apiService = RetrofitClient.getApiService()
+        b.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val res = apiService.getResponse()
+                runOnUiThread {
+                    val offers = res.offers.map { offer ->
+                        OfferEntity(id = offer.id, title = offer.title, link = offer.link, buttonText = offer.button?.text)
+                    }
+                    jobViewModel.insertOffers(offers)
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://drive.usercontent.google.com/u/0/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val API = retrofit.create(ApiInterface::class.java)
-        b.setOnClickListener { CoroutineScope(Dispatchers.IO).launch {
-            val res = API.getResponse()
-            runOnUiThread{
-                tv.text = res.offers.size.toString()
+                    tv.text = res.offers.size.toString()
+                }
             }
-        }
         }
     }
 }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -34,6 +35,15 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation ("androidx.room:room-runtime:2.5.0")
+    kapt ("androidx.room:room-compiler:2.5.0")
+    implementation ("androidx.room:room-ktx:2.5.0")
+
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
