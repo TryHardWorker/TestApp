@@ -40,9 +40,9 @@ dependencies {
     implementation(libs.gson)
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    implementation ("androidx.room:room-runtime:2.5.0")
-    kapt ("androidx.room:room-compiler:2.5.0")
-    implementation ("androidx.room:room-ktx:2.5.0")
+    implementation (libs.androidx.room.runtime)
+    kapt (libs.androidx.room.compiler)
+    implementation (libs.androidx.room.ktx)
 
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)

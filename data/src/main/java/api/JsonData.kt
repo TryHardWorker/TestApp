@@ -1,10 +1,10 @@
 package api.api
 
 data class Offer(
-    val id: String,
+    val id: String? = null,
     val title: String,
-    val link: String,
-    val button: Button? = null
+    val button: Button? = null,
+    val link: String
 )
 
 data class Button(

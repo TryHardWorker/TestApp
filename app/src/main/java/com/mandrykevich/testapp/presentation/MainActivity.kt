@@ -3,42 +3,41 @@ package com.mandrykevich.testapp.presentation
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import api.api.RetrofitClient
 import com.mandrykevich.testapp.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import room.AppDatabase
 import room.JobRepository
-import room.OfferEntity
 
 class MainActivity : AppCompatActivity() {
 
+    private val apiService = RetrofitClient.getApiService()
+
     private val jobViewModel: JobViewModel by viewModels {
-        JobViewModelFactory(JobRepository(AppDatabase.getDatabase(applicationContext).jobDao()))
+        JobViewModelFactory(JobRepository(AppDatabase.getDatabase(applicationContext).jobDao(), apiService))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val tv = findViewById<TextView>(R.id.tv)
         val b = findViewById<View>(R.id.bb)
 
-        val apiService = RetrofitClient.getApiService()
-        b.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                val res = apiService.getResponse()
-                runOnUiThread {
-                    val offers = res.offers.map { offer ->
-                        OfferEntity(id = offer.id, title = offer.title, link = offer.link, buttonText = offer.button?.text)
-                    }
-                    jobViewModel.insertOffers(offers)
-
-                    tv.text = res.offers.size.toString()
-                }
+        jobViewModel.dataLoaded.observe(this) { dataLoaded ->
+            if (dataLoaded == true) {
+                showToast("Данные успешно загружены!")
+            } else {
+                showToast("Ошибка загрузки данных.")
             }
         }
+
+        jobViewModel.refreshOffersAndVacancies()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
