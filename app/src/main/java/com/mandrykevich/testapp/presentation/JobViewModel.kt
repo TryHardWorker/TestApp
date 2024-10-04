@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import room.AppDatabase
 import room.JobRepository
 import room.OfferEntity
 import room.VacancyEntity
@@ -13,6 +14,7 @@ class JobViewModel(private val repository: JobRepository) : ViewModel() {
 
     private val _isDataLoading = MutableLiveData<Boolean>()
     val isDataLoading: LiveData<Boolean> get() = _isDataLoading
+
 
     private val _dataLoaded = MutableLiveData<Boolean>()
     val dataLoaded: LiveData<Boolean> get() = _dataLoaded
@@ -31,18 +33,15 @@ class JobViewModel(private val repository: JobRepository) : ViewModel() {
         }
     }
 
-    fun insertOffers(offers: List<OfferEntity>) {
+    fun insertOffers(newOffers: List<OfferEntity>) {
         viewModelScope.launch {
-            repository.insertOffers(offers)
+            repository.insertOffers(newOffers)
         }
     }
 
-    fun insertVacancies(vacancies: List<VacancyEntity>) {
+    fun insertVacancies(newVacancies: List<VacancyEntity>) {
         viewModelScope.launch {
-            repository.insertVacancies(vacancies)
+            repository.insertVacancies(newVacancies)
         }
     }
-
-    suspend fun getOffers() = repository.getOffers()
-    suspend fun getVacancies() = repository.getVacancies()
 }

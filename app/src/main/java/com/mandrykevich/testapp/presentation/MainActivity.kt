@@ -22,10 +22,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val tv = findViewById<TextView>(R.id.tv)
-        val b = findViewById<View>(R.id.bb)
-
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.navigarion_frame, MainFragment())
+                .commit()
+        }
         jobViewModel.dataLoaded.observe(this) { dataLoaded ->
             if (dataLoaded == true) {
                 showToast("Данные успешно загружены!")
