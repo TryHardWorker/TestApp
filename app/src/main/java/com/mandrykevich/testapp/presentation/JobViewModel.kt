@@ -12,6 +12,8 @@ import room.VacancyEntity
 
 class JobViewModel(private val repository: JobRepository) : ViewModel() {
 
+
+
     private val _isDataLoading = MutableLiveData<Boolean>()
     val isDataLoading: LiveData<Boolean> get() = _isDataLoading
 

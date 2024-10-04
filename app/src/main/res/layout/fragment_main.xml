@@ -5,161 +5,146 @@
     android:id="@+id/card_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="presentation.MainFragment">
+    tools:context=".presentation.MainFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/Shadows">
+        android:fillViewport="true">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Shadows"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:background="@color/Shadows">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/Shadows">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_searchplane"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@color/Grey2"
-                    app:cardCornerRadius="8dp"
-                    app:layout_constraintEnd_toStartOf="@+id/im_filter"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/Grey2">
-
-                        <EditText
-                            android:id="@+id/editTextText"
-                            android:layout_width="0dp"
-                            android:layout_height="46dp"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/filterstyle"
-                            android:ems="10"
-                            android:hint="Должность, ключевые слова"
-                            android:inputType="text"
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/Grey3"
-                            android:textSize="16sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/iv_swapsearch"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/iv_swapsearch"
-                            android:layout_width="24dp"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/filterstyle"
-                            android:clickable="true"
-                            android:src="@drawable/ic_search"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <ImageView
-                    android:id="@+id/im_filter"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/filterstyle"
-                    android:src="@drawable/ic_filter"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_horizontal"
-            android:layout_width="0dp"
-            android:layout_height="132dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="152dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_urvac"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-        <TextView
-            android:id="@+id/tv_urvac"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/sfp_semibold"
-            android:text="Вакансии для вас"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_horizontal" />
-
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_urvac">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:background="@color/Shadows"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_vertical"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintBottom_toTopOf="@+id/btn_showall"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_urvac" />
+                    android:background="@color/Shadows">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_showall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/buttonstyle_2"
-                    android:fontFamily="@font/sfp_regular"
-                    android:text="fnufnhiu"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_vertical" />
-            </LinearLayout>
-        </ScrollView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_searchplane"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@color/Grey2"
+                        app:cardCornerRadius="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/im_filter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/Grey2">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                            <EditText
+                                android:id="@+id/editTextText"
+                                android:layout_width="0dp"
+                                android:layout_height="46dp"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/filterstyle"
+                                android:ems="10"
+                                android:hint="Должность, ключевые слова"
+                                android:inputType="text"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/Grey3"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/iv_swapsearch"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/iv_swapsearch"
+                                android:layout_width="24dp"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/filterstyle"
+                                android:clickable="true"
+                                android:src="@drawable/ic_search"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/im_filter"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/filterstyle"
+                        android:src="@drawable/ic_filter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_horizontal"
+                android:layout_width="0dp"
+                android:layout_height="132dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="152dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+            <TextView
+                android:id="@+id/tv_urvac"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/sfp_semibold"
+                android:text="Вакансии для вас"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_horizontal" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_urvac" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_showall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/buttonstyle_2"
+                android:fontFamily="@font/sfp_regular"
+                android:text="fnufnhiu"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_vertical" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 </FrameLayout>

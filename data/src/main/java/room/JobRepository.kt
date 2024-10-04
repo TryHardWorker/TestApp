@@ -2,27 +2,29 @@ package room
 
 import android.util.Log
 import api.api.ApiInterface
-import api.api.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class JobRepository(private val jobDao: JobDao, private val apiInterface: ApiInterface) {
 
+    // Метод для обновления предложений и вакансий из API
     suspend fun refreshOffersAndVacancies() {
         withContext(Dispatchers.IO) {
             try {
-                val res = apiInterface.getResponse()
+                val response = apiInterface.getResponse()
 
-                val offers = res.offers.map { offer ->
+                // Преобразование ответа API в список объектов OfferEntity
+                val offers = response.offers.map { offer ->
                     OfferEntity(
                         id = offer.id ?: "unknown_id",
                         title = offer.title,
                         link = offer.link,
-                        buttonText = offer.button?.text
+                        buttonText = offer.button?.text ?: ""
                     )
                 }
 
-                val vacancies = res.vacancies.map { vacancy ->
+                // Преобразование ответа API в список объектов VacancyEntity
+                val vacancies = response.vacancies.map { vacancy ->
                     VacancyEntity(
                         id = vacancy.id ?: "unknown_id",
                         title = vacancy.title,
@@ -51,18 +53,26 @@ class JobRepository(private val jobDao: JobDao, private val apiInterface: ApiInt
     }
 
     suspend fun insertOffers(offers: List<OfferEntity>) {
-        jobDao.insertOffers(offers)
+        withContext(Dispatchers.IO) {
+            jobDao.insertOffers(offers)
+        }
     }
 
     suspend fun insertVacancies(vacancies: List<VacancyEntity>) {
-        jobDao.insertVacancies(vacancies)
+        withContext(Dispatchers.IO) {
+            jobDao.insertVacancies(vacancies)
+        }
     }
 
     suspend fun getOffers(): List<OfferEntity> {
-        return jobDao.getOffers()
+        return withContext(Dispatchers.IO) {
+            jobDao.getOffers()
+        }
     }
 
     suspend fun getVacancies(): List<VacancyEntity> {
-        return jobDao.getVacancies()
+        return withContext(Dispatchers.IO) {
+            jobDao.getVacancies()
+        }
     }
 }
