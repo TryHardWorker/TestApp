@@ -13,19 +13,18 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class VacancyAdapter(private val vacancies: List<VacancyEntity>) : RecyclerView.Adapter<VacancyAdapter.VacancyViewHolder>() {
+class VacancyAdapter : ListAdapter<VacancyEntity, VacancyAdapter.VacancyViewHolder>(VacancyDiffCallback()) {
 
     class VacancyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val vacancyTitle: TextView = itemView.findViewById(R.id.tv_vacancy_name)
-        val vacancyPeopleCount: TextView = itemView.findViewById(R.id.tv_peoplecount)
-        val vacancySalary: TextView = itemView.findViewById(R.id.tv_vacancy_salary)
-        val vacancyCity: TextView = itemView.findViewById(R.id.tv_vacancy_city)
-        val vacancyCompany: TextView = itemView.findViewById(R.id.tv_vacancy_company)
-        val vacancyExp: TextView = itemView.findViewById(R.id.tv_vacancy_exp)
-        val vacancyUrvac: TextView = itemView.findViewById(R.id.tv_vacancy_postdate)
+        private val vacancyTitle: TextView = itemView.findViewById(R.id.tv_vacancy_name)
+        private val vacancyPeopleCount: TextView = itemView.findViewById(R.id.tv_peoplecount)
+        private val vacancySalary: TextView = itemView.findViewById(R.id.tv_vacancy_salary)
+        private val vacancyCity: TextView = itemView.findViewById(R.id.tv_vacancy_city)
+        private val vacancyCompany: TextView = itemView.findViewById(R.id.tv_vacancy_company)
+        private val vacancyExp: TextView = itemView.findViewById(R.id.tv_vacancy_exp)
+        private val vacancyUrvac: TextView = itemView.findViewById(R.id.tv_vacancy_postdate)
 
         fun bind(vacancy: VacancyEntity) {
-
             vacancyTitle.text = vacancy.title
             vacancySalary.text = vacancy.salary.short
             vacancyCity.text = vacancy.address.town
@@ -33,15 +32,7 @@ class VacancyAdapter(private val vacancies: List<VacancyEntity>) : RecyclerView.
             vacancyExp.text = vacancy.experience.previewText
             vacancyUrvac.text = transformDate(vacancy.publishedDate)
 
-
-
-
-            if (vacancy.salary.short.isNullOrEmpty()) {
-                vacancySalary.visibility = View.GONE
-            } else {
-                vacancySalary.text = vacancy.salary.short
-                vacancySalary.visibility = View.VISIBLE
-            }
+            vacancySalary.visibility = if (vacancy.salary.short.isNullOrEmpty()) View.GONE else View.VISIBLE
 
             val lookingNumber = vacancy.lookingNumber ?: 0
             val peopleText = when {
@@ -50,24 +41,24 @@ class VacancyAdapter(private val vacancies: List<VacancyEntity>) : RecyclerView.
                 else -> "человек"
             }
 
-            if (lookingNumber > 0) {
+            vacancyPeopleCount.visibility = if (lookingNumber > 0) {
                 vacancyPeopleCount.text = "Сейчас просматривают $lookingNumber $peopleText"
-                vacancyPeopleCount.visibility = View.VISIBLE
+                View.VISIBLE
             } else {
-                vacancyPeopleCount.visibility = View.GONE
+                View.GONE
             }
         }
 
-        fun transformDate(dateString: String): String {
+        private fun transformDate(dateString: String): String {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
 
-            try {
+            return try {
                 val date = inputFormat.parse(dateString)
-                return outputFormat.format(date)
+                outputFormat.format(date)
             } catch (e: ParseException) {
                 e.printStackTrace()
-                return ""
+                ""
             }
         }
     }
@@ -78,14 +69,8 @@ class VacancyAdapter(private val vacancies: List<VacancyEntity>) : RecyclerView.
     }
 
     override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
-        holder.bind(vacancies[position])
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount(): Int {
-        return vacancies.size
-    }
-
-
 }
 
 class VacancyDiffCallback : DiffUtil.ItemCallback<VacancyEntity>() {
