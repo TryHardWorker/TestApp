@@ -14,7 +14,7 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class VacancyAdapter : ListAdapter<VacancyEntity, VacancyAdapter.VacancyViewHolder>(VacancyDiffCallback()) {
+class FavoriteAdapter : ListAdapter<VacancyEntity, FavoriteAdapter.VacancyViewHolder>(VacancyDiffCallback()) {
 
     class VacancyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val vacancyTitle: TextView = itemView.findViewById(R.id.tv_vacancy_name)
@@ -26,6 +26,7 @@ class VacancyAdapter : ListAdapter<VacancyEntity, VacancyAdapter.VacancyViewHold
         private val vacancyUrvac: TextView = itemView.findViewById(R.id.tv_vacancy_postdate)
         private val vacancyFavorte: ImageView = itemView.findViewById(R.id.isFavorite)
 
+
         fun bind(vacancy: VacancyEntity) {
             vacancyTitle.text = vacancy.title
             vacancySalary.text = vacancy.salary.short
@@ -33,9 +34,10 @@ class VacancyAdapter : ListAdapter<VacancyEntity, VacancyAdapter.VacancyViewHold
             vacancyCompany.text = vacancy.company
             vacancyExp.text = vacancy.experience.previewText
             vacancyUrvac.text = transformDate(vacancy.publishedDate)
-            if(vacancy.isFavorite){vacancyFavorte.setImageResource(R.drawable.ic_favorite_active)}
 
             vacancySalary.visibility = if (vacancy.salary.short.isNullOrEmpty()) View.GONE else View.VISIBLE
+            if(vacancy.isFavorite){vacancyFavorte.setImageResource(R.drawable.ic_favorite_active)}
+
 
             val lookingNumber = vacancy.lookingNumber ?: 0
             val peopleText = when {
@@ -72,16 +74,16 @@ class VacancyAdapter : ListAdapter<VacancyEntity, VacancyAdapter.VacancyViewHold
     }
 
     override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val vacancy = getItem(position)
+        if (vacancy.isFavorite) {
+            holder.bind(vacancy)
+        } else {
+            holder.itemView.layoutParams.height = 0
+            holder.itemView.layoutParams.width = 0
+            holder.itemView.requestLayout()
+        }
     }
+
+
 }
 
-class VacancyDiffCallback : DiffUtil.ItemCallback<VacancyEntity>() {
-    override fun areItemsTheSame(oldItem: VacancyEntity, newItem: VacancyEntity): Boolean {
-        return oldItem.id == newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: VacancyEntity, newItem: VacancyEntity): Boolean {
-        return oldItem == newItem
-    }
-}
